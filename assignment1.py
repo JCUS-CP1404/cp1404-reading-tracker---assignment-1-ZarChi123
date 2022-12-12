@@ -1,6 +1,6 @@
 """
 Replace the contents of this module docstring with your own details
-Name:Zar Chi Oo
+Name:Zar Chi OoO
 Date started:12/12/2022
 GitHub URL:https://github.com/JCUS-CP1404/assignment-1-ZarChi123
 """
