@@ -6,7 +6,11 @@ GitHub URL:https://github.com/JCUS-CP1404/assignment-1-ZarChi123.git
 """
 from operator import itemgetter
 
-FILENAME = "books1.csv"
+FILENAME = "books.csv"
+INDEX_TITLE = 0
+INDEX_AUTHOR = 1
+INDEX_PAGE_COUNT = 2
+INDEX_STATUS = 3
 
 
 def main():
@@ -32,9 +36,30 @@ def main():
 
 def list_books(books):
     """Print list of books sorted by author and title"""
-    print(books)
+    book_count = 0
+    required_page_count = 0
+    required_book_count = 0
     books.sort(key=itemgetter(1, 0))
-    print(books)
+    for book in books:
+        book_count += 1
+        if book[INDEX_STATUS]=="c":
+            print(
+                f"{book_count:>2}. {book[INDEX_TITLE]:45} {'by ' + book[INDEX_AUTHOR]:20} {book[INDEX_PAGE_COUNT]:>5} pages.")
+        else:
+            print(
+                f"*{book_count:>1}. {book[INDEX_TITLE]:45} {'by ' + book[INDEX_AUTHOR]:20} {book[INDEX_PAGE_COUNT]:>5} pages.")
+
+        required_book_count += 1
+        required_page_count += int(book[INDEX_PAGE_COUNT])
+    if required_book_count == 0:
+        print("No books left to read.Why not add a new book?")
+    else:
+        print(f"You need to read {required_page_count} pages in {required_book_count} books")
+
+
+
+def add_books(books):
+    pass
 
 
 def get_books(filename, books):
@@ -45,7 +70,7 @@ def get_books(filename, books):
                 # print(line)
                 # print(type(line))
                 book_details = line.strip().split(",")
-                books.append(list(line))
+                books.append(list(book_details))
                 # print(book_details)
                 # print(type(book_details))
     except FileNotFoundError:
