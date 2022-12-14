@@ -26,7 +26,8 @@ def main():
             if choice == "L":
                 list_books(books)
             elif choice == "A":
-                pass
+                add_books(books)
+
             elif choice == "M":
                 pass
             print(menu_string)
@@ -42,12 +43,12 @@ def list_books(books):
     books.sort(key=itemgetter(1, 0))
     for book in books:
         book_count += 1
-        if book[INDEX_STATUS]=="c":
+        if book[INDEX_STATUS] == "c":
             print(
-                f"{book_count:>2}. {book[INDEX_TITLE]:45} {'by ' + book[INDEX_AUTHOR]:20} {book[INDEX_PAGE_COUNT]:>5} pages.")
+                f"{book_count:>2}. {book[INDEX_TITLE]:45} {'by ' + book[INDEX_AUTHOR]:20} {book[INDEX_PAGE_COUNT]:>5} pages")
         else:
             print(
-                f"*{book_count:>1}. {book[INDEX_TITLE]:45} {'by ' + book[INDEX_AUTHOR]:20} {book[INDEX_PAGE_COUNT]:>5} pages.")
+                f"*{book_count:>1}. {book[INDEX_TITLE]:45} {'by ' + book[INDEX_AUTHOR]:20} {book[INDEX_PAGE_COUNT]:>5} pages")
 
         required_book_count += 1
         required_page_count += int(book[INDEX_PAGE_COUNT])
@@ -57,9 +58,36 @@ def list_books(books):
         print(f"You need to read {required_page_count} pages in {required_book_count} books")
 
 
-
 def add_books(books):
-    pass
+    book_title = get_valid_string("Title:").title()
+    author = get_valid_string("Author:").title()
+    pages = get_valid_page_count("Pages:")
+    new_book = [book_title, author, pages, "r"]
+    books.append(new_book)
+    print(f"{book_title} by {author},({pages}pages) added to the Reading Tracker")
+    # print(books)
+
+def get_valid_string(prompt):
+    input_string = input(prompt)
+    while input_string.strip() == "":
+        print("Input can not be blank")
+        input_string = input(prompt)
+    return input_string
+
+
+def get_valid_page_count(prompt):
+    valid_input = False
+    while not valid_input:
+        try:
+            input_string = int(input(prompt))
+            if input_string <= 0:
+                raise KeyError
+            valid_input = True
+        except ValueError:
+            print("Invalid input;enter a valid number")
+        except KeyError:
+            print("Number must be >0")
+    return input_string
 
 
 def get_books(filename, books):
