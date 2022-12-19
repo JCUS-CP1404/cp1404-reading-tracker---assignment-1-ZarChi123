@@ -5,13 +5,15 @@ Date started:12/12/2022
 GitHub URL:https://github.com/JCUS-CP1404/cp1404-reading-tracker---assignment-1-ZarChi123.git
 """
 from operator import itemgetter
+import random
+
 FILENAME = "books.csv"
 INDEX_TITLE = 0
 INDEX_AUTHOR = 1
 INDEX_PAGE_COUNT = 2
 INDEX_STATUS = 3
 
-"""New github updates"""
+
 def main():
     """Main function of the reading tracker program"""
     books = []
@@ -34,7 +36,15 @@ def main():
                 print("Invalid menu choice")
             print(menu_string)
             choice = input(">>>").upper()
-        print("Finish")
+        write_csv(FILENAME, books)
+        display_quotes()
+
+
+def display_quotes():
+    """Display quotes after the user quit the program """
+    quotes_file = open("quotes.txt", 'r', encoding='utf-8')
+    quotes = quotes_file.readlines()
+    print(quotes[random.randint(0, len(quotes) - 1)])
 
 
 def list_books(books):
@@ -143,6 +153,19 @@ def get_books(filename, books):
                 # print(type(book_details))
     except FileNotFoundError:
         print(f"The file \"{filename}\" was not found!")
+
+
+def write_csv(FILENAME, books):
+    """Write the output of book list into csv file"""
+    try:
+        with open(FILENAME, 'w', encoding="utf-8-sig") as out_file:
+
+            for book in books:
+                row = ','.join(str(field) for field in book)
+                out_file.write(row + "\n")
+            print(f"{len(books)} books saved to {FILENAME}")
+    except FileNotFoundError:
+        print(f"The file \"{FILENAME}\" was not found!")
 
 
 main()
