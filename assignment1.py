@@ -6,14 +6,7 @@ GitHub URL:https://github.com/JCUS-CP1404/cp1404-reading-tracker---assignment-1-
 """
 from operator import itemgetter
 import random
-
 FILENAME = "books.csv"
-INDEX_TITLE = 0
-INDEX_AUTHOR = 1
-INDEX_PAGE_COUNT = 2
-INDEX_STATUS = 3
-
-
 def main():
     """Main function of the reading tracker program"""
     books = []
@@ -48,21 +41,21 @@ def display_quotes():
 
 
 def list_books(books):
-    """Print list of books sorted by author and title"""
+    """Print list of books sorted by author and title """
     book_count = 0
     required_page_count = 0
     required_book_count = 0
     books.sort(key=itemgetter(1, 0))
     for book in books:
-        if book[INDEX_STATUS] == "r":
+        if book[3] == "r":
             print(
-                f"*{book_count + 1:>1}. {book[INDEX_TITLE]:45} {'by ' + book[INDEX_AUTHOR]:20} {book[INDEX_PAGE_COUNT]:>5} pages.")
+                f"*{book_count + 1:>1}. {book[0]:45} {'by ' + book[1]:20} {book[2]:>5} pages.")
 
             required_book_count += 1
-            required_page_count += int(book[INDEX_PAGE_COUNT])
+            required_page_count += int(book[2])
         else:
             print(
-                f"{book_count + 1:>2}. {book[INDEX_TITLE]:45} {'by ' + book[INDEX_AUTHOR]:20} {book[INDEX_PAGE_COUNT]:>5} pages.")
+                f"{book_count + 1:>2}. {book[0]:45} {'by ' + book[1]:20} {book[2]:>5} pages.")
         book_count += 1
 
     if required_book_count == 0:
@@ -74,7 +67,7 @@ def list_books(books):
 def has_required_book(books):
     """Check if there is any required book"""
     for book in books:
-        if book[INDEX_STATUS] == "r":
+        if book[3] == "r":
             return True
     return False
 
@@ -85,17 +78,17 @@ def mark_complete(books):
         list_books(books)
         book_number = get_valid_book_number("Enter the number of a book to mark as completed", books)
         mark_book_index = book_number - 1
-        if books[mark_book_index][INDEX_STATUS] == "c":
+        if books[mark_book_index][3] == "c":
             print("The book is already completed")
         else:
-            books[mark_book_index][INDEX_STATUS] = "c"
-            print(f"{books[mark_book_index][INDEX_TITLE]} by {books[mark_book_index][INDEX_AUTHOR]} completed!")
+            books[mark_book_index][3] = "c"
+            print(f"{books[mark_book_index][0]} by {books[mark_book_index][1]} completed!")
     else:
         print("No required books")
 
 
 def get_valid_book_number(prompt, books):
-    """Get a valid book number """
+    """Get a valid book number  """
     print(prompt)
     book_number = get_valid_number(">>>")
     while book_number > len(books):
